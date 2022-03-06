@@ -46,6 +46,9 @@ namespace VoltElekto
         [CommandOption("MarginsFile", 'm', Description = "Arquivo json com os parâmetros de margem/garantia. ")]
         public string MarginsFile { get; set; }
 
+        [CommandOption("OutputFile", 'o', Description = "Arquivo excel de saída. ")]
+        public string OutputFile { get; set; }
+
 
         public ValueTask ExecuteAsync(IConsole console)
         {
@@ -214,7 +217,7 @@ namespace VoltElekto
             #region Dump dos Arquivos de Prova
 
             var path = Path.GetDirectoryName(PositionsFile) ?? string.Empty;
-            var baseName = Path.GetFileNameWithoutExtension(PositionsFile);
+            var baseName = Path.GetFileNameWithoutExtension(OutputFile ?? PositionsFile);
 
             var sb = new StringBuilder();
 
@@ -283,7 +286,12 @@ namespace VoltElekto
             }
 
             // Vai sobrescrever, ou nem vai fazer
-            var reportFile = Path.Combine(path, $"{baseName}.Report.xlsx");
+            var reportFile = OutputFile;
+            if (string.IsNullOrWhiteSpace(reportFile))
+            {
+                reportFile = Path.Combine(path, $"{baseName}.Report.xlsx");
+            }
+
             calculator.WriteReport(templateFile, reportFile, stresses, allPositions, allTrades, NetWorth, stressParameters, PositionsFile, MarginsFile);
 
             console.Output.WriteLine($"Relatório salvo em '{reportFile}'.");

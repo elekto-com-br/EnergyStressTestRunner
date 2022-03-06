@@ -129,11 +129,7 @@ namespace VoltElekto.Energy
                 _ => throw new ArgumentOutOfRangeException(nameof(worstScenario), worstScenario, "Cenário não reconhecido")
             };
 
-            // Só interessa se for um cenário onde realmente há perda
-            MarginBase = Math.Min(MarginBase, 0.0);
             
-            // Tornando o valor positivo para evitar confusão posterior
-            MarginBase = Math.Abs(MarginBase);
 
             var coverage = marginParameters.GetCoverageFactor(Position.ReferenceDate, Position.StartMonth);
             MarginRequired = MarginBase * coverage;
