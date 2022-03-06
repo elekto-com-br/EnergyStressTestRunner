@@ -66,18 +66,15 @@ namespace VoltElekto.Energy
                 p.CalculateMargin(worstScenario, marginParameters);
             }
 
-            MarginRequired = _positions.Sum(p => p.MarginRequired);
+            var sumRisk = _positions.Sum(p => p.MarginRequired);
 
             // Só interessa se for um cenário onde realmente há perda
-            MarginRequired = Math.Min(MarginRequired, 0.0);
-
-            // Tornando o valor positivo para evitar confusão posterior
-            MarginRequired = Math.Abs(MarginRequired);
+            sumRisk = Math.Min(sumRisk, 0.0);
 
             // A margem pode ser coberta (parcialmente) pelo próprio valor do portfolio
-            MarginRequired -= Value;
-            MarginRequired = Math.Max(MarginRequired, 0.0);
+            var valueToCover = Value + sumRisk;
 
+            MarginRequired = valueToCover > 0.0 ? 0.0 : Math.Abs(valueToCover);
         }
 
         

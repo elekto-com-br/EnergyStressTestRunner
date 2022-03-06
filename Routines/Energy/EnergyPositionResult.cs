@@ -129,9 +129,9 @@ namespace VoltElekto.Energy
                 _ => throw new ArgumentOutOfRangeException(nameof(worstScenario), worstScenario, "Cenário não reconhecido")
             };
 
-            
-
             var coverage = marginParameters.GetCoverageFactor(Position.ReferenceDate, Position.StartMonth);
+
+            // Deixar com sinal, de modo que uma negativa seja compensada por uma positiva adjacente, ao menos parcialmente
             MarginRequired = MarginBase * coverage;
         }
     }
