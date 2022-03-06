@@ -148,7 +148,7 @@ namespace VoltElekto
                 sb.AppendLine("ReferenceDate\tProductDate\tAmount");
                 foreach (var p in positionsOrTrades)
                 {
-                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.StartMonth:yyyy-MM-dd}\t{p.Amount:G}");
+                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.StartMonth:yyyy-MM-dd}\t{p.Amount*p.BuySell.GetSignal():G}");
                 }
                 File.WriteAllText(Path.Combine(path, $"{baseName}.RefPos.txt"), sb.ToString(), Encoding.UTF8);
 
@@ -157,7 +157,7 @@ namespace VoltElekto
                 sb.AppendLine("ReferenceDate\tProductDate\tAmount");
                 foreach (var p in allPositions)
                 {
-                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.StartMonth:yyyy-MM-dd}\t{p.Amount:G}");
+                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.StartMonth:yyyy-MM-dd}\t{p.Amount*p.BuySell.GetSignal():G}");
                 }
                 File.WriteAllText(Path.Combine(path, $"{baseName}.AllPos.txt"), sb.ToString(), Encoding.UTF8);
 
