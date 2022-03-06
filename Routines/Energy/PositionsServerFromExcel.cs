@@ -10,7 +10,7 @@ namespace VoltElekto.Energy
     /// <summary>
     /// Devolve posições (ou trades) a partir de um Excel
     /// </summary>
-    public class PositionsServerFromExcel : ExcelReaderBase
+    public class PositionsServerFromExcel : ExcelReaderBase, IPositionsServer
     {
         private readonly ICalendar _calendar;
 
@@ -91,7 +91,7 @@ namespace VoltElekto.Energy
                     StartMonth = deliveryDate.Date.StartOfMonth(),
                     BuySell = buySell,
                     Amount = volume,
-                    Tag = $"r{startRow + i}"
+                    Tag = $"r{startRow + i:00000}"
                 };
 
                 yield return position;

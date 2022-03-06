@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routines", "Routines\Routin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F69458ED-10BC-4418-BE21-71AB04EE08A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StressTestRunnerCli", "StressTestRunnerCli\StressTestRunnerCli.csproj", "{7C91EC0E-6631-48EF-B25E-AA106C6CA794}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F69458ED-10BC-4418-BE21-71AB04EE08A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F69458ED-10BC-4418-BE21-71AB04EE08A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F69458ED-10BC-4418-BE21-71AB04EE08A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C91EC0E-6631-48EF-B25E-AA106C6CA794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C91EC0E-6631-48EF-B25E-AA106C6CA794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C91EC0E-6631-48EF-B25E-AA106C6CA794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C91EC0E-6631-48EF-B25E-AA106C6CA794}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

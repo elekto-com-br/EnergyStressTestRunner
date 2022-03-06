@@ -191,7 +191,7 @@ namespace VoltElekto
                 sb.AppendLine("ReferenceDate\tValue\tFixedValue\tEnergyValue\tStressParallelPlus\tStressParallelMinus\tStressShortPlus\tStressShortMinus\tStressAscendent\tStressDescendent\tReferenceStress\tWorstStress");
                 foreach (var p in stresses)
                 {
-                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.Value:G}\t{p.FixedValue:G}\t{p.EnergyValue:G}\t{p.StressParallelPlus:G}\t{p.StressParallelMinus:G}\t{p.StressShortPlus:G}\t{p.StressShortMinus:G}\t{p.StressAscendent:G}\t{p.StressDescendent:G}\t{p.ReferenceStress:G}\t{p.WorstStress:G}");
+                    sb.AppendLine($"{p.ReferenceDate:yyyy-MM-dd}\t{p.Value:G}\t{p.FixedValue:G}\t{p.EnergyValue:G}\t{p.StressParallelPlus:G}\t{p.StressParallelMinus:G}\t{p.StressShortPlus:G}\t{p.StressShortMinus:G}\t{p.StressAscendent:G}\t{p.StressDescendent:G}\t{p.ReferenceStress:G}\t{p.WorstStress}");
                 }
 
                 var stressFileName = Path.Combine(path, $"{baseName}.PortfolioStress.txt");
@@ -242,17 +242,7 @@ namespace VoltElekto
             }
         }
 
-        private enum CalculationMode
-        {
-            [Description("Posições Interpoladas")]
-            PositionInterpolated = 0,
-
-            [Description("Posições Como Informadas")]
-            PositionAbsolute = 1,
-
-            [Description("Negociações")]
-            Trades = 2
-        }
+       
 
         
         private void AddStatusText(string text)
@@ -293,7 +283,7 @@ namespace VoltElekto
                 AddStatusText($"Calendário tem {calendar.Holidays.Count():N0} feriados.");
 
                 var curveFile = Path.Combine(dataDirectory, "Energia.txt");
-                if (!File.Exists(holidayFile))
+                if (!File.Exists(curveFile))
                 {
                     throw new FileNotFoundException($"O arquivo com as curvas de energia '{curveFile}' não existe!");
                 }

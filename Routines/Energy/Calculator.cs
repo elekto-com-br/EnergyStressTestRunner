@@ -324,8 +324,7 @@ namespace VoltElekto.Energy
             var workBook = package.Workbook;
 
             const double mm = 1_000_000.0;
-            const double m = 1_000.0;
-
+            
             #region Fator de Alavancagem (o resumo data a data)
 
             var sheet = workBook.Worksheets["FatorAlavancagem"];

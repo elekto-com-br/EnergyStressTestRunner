@@ -44,10 +44,13 @@
     <Compile Include="Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="Collections\Generic\EnumHelper.cs" />
     <Compile Include="Data\FinancialConstants.cs" />
+    <Compile Include="Energy\CalculationMode.cs" />
     <Compile Include="Energy\Calculator.cs" />
     <Compile Include="Energy\EnergyPositionResult.cs" />
+    <Compile Include="Energy\IPositionsServer.cs" />
     <Compile Include="Energy\PortfolioResult.cs" />
     <Compile Include="Energy\PositionsServerFromExcel.cs" />
+    <Compile Include="Energy\PositionsServerFromText.cs" />
     <Compile Include="Energy\StressParameters.cs" />
     <Compile Include="Energy\StressResult.cs" />
     <Compile Include="Excel\ExcelReaderBase.cs" />
