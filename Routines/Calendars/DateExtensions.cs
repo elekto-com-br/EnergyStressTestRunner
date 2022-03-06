@@ -71,6 +71,11 @@ namespace VoltElekto.Calendars
             GetYearAndMonthFromSerialMonth(serialMonth, out year, out month);
         }
 
+        public static int GetSerialMonth(this DateTime date)
+        {
+            return GetSerialMonth(date.Year, date.Month);
+        }
+
         private static int GetSerialMonth(int year, int month)
         {
             return year * 12 + (month - 1);

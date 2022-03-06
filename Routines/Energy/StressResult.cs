@@ -43,36 +43,36 @@ namespace VoltElekto.Energy
         public virtual void CalculateReferenceStress()
         {
             var min = StressParallelPlus;
-            WorstStress = "P+";
+            WorstStress = Scenarios.ParallelPlus;
 
             if (StressParallelMinus < min)
             {
                 min = StressParallelMinus;
-                WorstStress = "P-";
+                WorstStress = Scenarios.ParallelMinus;
             }
 
             if (StressShortPlus < min)
             {
                 min = StressShortPlus;
-                WorstStress = "S+";
+                WorstStress = Scenarios.ShortPlus;
             }
 
             if (StressShortMinus < min)
             {
                 min = StressShortMinus;
-                WorstStress = "S-";
+                WorstStress = Scenarios.ShortMinus;
             }
 
             if (StressAscendent < min)
             {
                 min = StressAscendent;
-                WorstStress = "A";
+                WorstStress = Scenarios.Ascendent;
             }
 
             if (StressDescendent < min)
             {
                 min = StressDescendent;
-                WorstStress = "D";
+                WorstStress = Scenarios.Descendent;
             }
 
             // A não ser operando próximo dos limites, sempre haverá um cenário perdedor

@@ -9,9 +9,11 @@ using CliFx.Attributes;
 using CliFx.Exceptions;
 using CliFx.Infrastructure;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using VoltElekto.Calendars;
 using VoltElekto.Collections.Generic;
 using VoltElekto.Energy;
+using VoltElekto.Energy.Margin;
 using VoltElekto.Market;
 
 namespace VoltElekto
@@ -32,14 +34,17 @@ namespace VoltElekto
         [CommandOption("StressLong", Description = "Stress de Longo Prazo")]
         public double? StressLong { get; set; }
 
-        [CommandOption("NetWorth", 'n', Description = "Patrimônio de Referência. ")]
+        [CommandOption("NetWorth", 'n', Description = "Patrimônio de Referência.")]
         public double NetWorth { get; set; } = 10_000_000.0;
 
-        [CommandOption("CurveFile", 'c', Description = "Arquivo texto com as curvas de energia. ")]
+        [CommandOption("CurveFile", 'c', Description = "Arquivo texto com as curvas de energia.")]
         public string CurveFile { get; set; }
 
-        [CommandOption("HolidaysFile", 'h', Description = "Arquivo texto com os feriados. ")]
+        [CommandOption("HolidaysFile", 'h', Description = "Arquivo texto com os feriados.")]
         public string HolidaysFile { get; set; }
+
+        [CommandOption("MarginsFile", 'm', Description = "Arquivo json com os parâmetros de margem/garantia. ")]
+        public string MarginsFile { get; set; }
 
 
         public ValueTask ExecuteAsync(IConsole console)
@@ -132,6 +137,32 @@ namespace VoltElekto
             console.Output.WriteLine($"Stress Paralelo:    {stressParameters.StressParallel:P0}");
             console.Output.WriteLine($"Stress Curto Prazo: {stressParameters.StressShort:P0}");
             console.Output.WriteLine($"Stress Longo Prazo: {stressParameters.StressLong:P0}");
+
+            // Parâmetros de Garantias/Margem
+            MarginParameters marginParameters = null;
+            if (!string.IsNullOrWhiteSpace(MarginsFile))
+            {
+                if (!File.Exists(MarginsFile))
+                {
+                    throw new CommandException($"O arquivo de margens '{MarginsFile}' não existe!");
+                }
+
+                var content = File.ReadAllText(MarginsFile, Encoding.UTF8);
+                marginParameters = JsonConvert.DeserializeObject<MarginParameters>(content);
+
+                if (marginParameters == null)
+                {
+                    throw new CommandException($"O arquivo de margens '{MarginsFile}' é inválido.");
+                }
+
+                marginParameters.Normalize();
+                
+                console.Output.WriteLine($"Parâmetros de Garantia/Margem '{marginParameters.Name}':");
+                foreach (var v in marginParameters.Vertices)
+                {
+                    console.Output.WriteLine($"  M{v.ReferenceMonth}: {v.Coverage:P0}");
+                }
+            }
 
             const CalculationMode mode = CalculationMode.PositionInterpolated;
             console.Output.WriteLine($"Modo de Cálculo: {mode.GetDescription()}");
@@ -227,7 +258,7 @@ namespace VoltElekto
 
             #endregion
 
-            var stresses = calculator.CalculateStress(allPositions, stressParameters);
+            var stresses = calculator.CalculateStress(allPositions, stressParameters, marginParameters);
 
             #region Dump do Stress em cada data
 
@@ -251,15 +282,9 @@ namespace VoltElekto
                 throw new FileNotFoundException("Arquivo de template não encontrado", templateFile);
             }
 
+            // Vai sobrescrever, ou nem vai fazer
             var reportFile = Path.Combine(path, $"{baseName}.Report.xlsx");
-            var tryCount = 0;
-            while (File.Exists(reportFile))
-            {
-                reportFile = Path.Combine(path, $"{baseName}.Report.{tryCount:0000}.xlsx");
-                ++tryCount;
-            }
-
-            calculator.WriteReport(templateFile, reportFile, stresses, allPositions, allTrades, NetWorth, stressParameters);
+            calculator.WriteReport(templateFile, reportFile, stresses, allPositions, allTrades, NetWorth, stressParameters, PositionsFile, MarginsFile);
 
             console.Output.WriteLine($"Relatório salvo em '{reportFile}'.");
 

@@ -5,6 +5,7 @@ using System.Linq;
 using OfficeOpenXml;
 using VoltElekto.Calendars;
 using VoltElekto.Data;
+using VoltElekto.Energy.Margin;
 using VoltElekto.Market;
 
 namespace VoltElekto.Energy
@@ -210,7 +211,7 @@ namespace VoltElekto.Energy
             return allFinalPositions;
         }
 
-        public List<PortfolioResult> CalculateStress(IEnumerable<EnergyPosition> allFinalPositions, StressParameters stressParameters)
+        public List<PortfolioResult> CalculateStress(IEnumerable<EnergyPosition> allFinalPositions, StressParameters stressParameters, MarginParameters marginParameters = null)
         {
             var portfolios = allFinalPositions.GroupBy(ep => ep.ReferenceDate).OrderBy(p => p.Key);
 
@@ -222,13 +223,14 @@ namespace VoltElekto.Energy
                 var positions = portfolio.ToList();
                 var priceOnDate = _curveServer.GetCurve(referenceDate);
 
-                results.Add(CalculatePortfolioStress(referenceDate, positions, priceOnDate, stressParameters));
+                results.Add(CalculatePortfolioStress(referenceDate, positions, priceOnDate, stressParameters, marginParameters));
             }
 
             return results;
         }
 
-        private PortfolioResult CalculatePortfolioStress(DateTime referenceDate, List<EnergyPosition> positions, ICurve priceOnDate, StressParameters stressParameters)
+        private PortfolioResult CalculatePortfolioStress(DateTime referenceDate, List<EnergyPosition> positions, ICurve priceOnDate,
+            StressParameters stressParameters, MarginParameters marginParameters = null)
         {
             
             var pr = new PortfolioResult
@@ -248,6 +250,11 @@ namespace VoltElekto.Energy
             }
 
             pr.CalculateReferenceStress();
+
+            if (marginParameters != null)
+            {
+                pr.CalculateMargin(marginParameters);
+            }
 
             return pr;
         }
@@ -317,7 +324,7 @@ namespace VoltElekto.Energy
 
         }
 
-        public void WriteReport(string templateFile, string reportFile, List<PortfolioResult> stresses, List<EnergyPosition> allPositions, List<EnergyPosition> allTrades, double capital, StressParameters stressParameters)
+        public void WriteReport(string templateFile, string reportFile, List<PortfolioResult> stresses, List<EnergyPosition> allPositions, List<EnergyPosition> allTrades, double capital, StressParameters stressParameters, string inputFile = null, string marginFile= null)
         {
             var file = new FileInfo(templateFile);
             using var package = new ExcelPackage(file);
@@ -337,6 +344,8 @@ namespace VoltElekto.Energy
                 sheet.SetValue(row, 3, r.Value/mm);
                 sheet.SetValue(row, 4, r.ReferenceStress/mm);
                 sheet.SetValue(row, 6, capital/mm);
+                sheet.SetValue(row, 8, r.WorstStress);
+                sheet.SetValue(row, 9, r.MarginRequired/mm);
 
                 ++row;
             }
@@ -398,7 +407,10 @@ namespace VoltElekto.Energy
                     sheet.SetValue(row, 16, e.StressAscendent/mm);
                     sheet.SetValue(row, 17, e.StressDescendent/mm);
                     sheet.SetValue(row, 18, e.WorstStress);
-                    
+
+                    sheet.SetValue(row, 19, e.MarginScenario);
+                    sheet.SetValue(row, 20, e.MarginRequired/mm);
+
                     ++row;    
                 }
             }
@@ -439,6 +451,34 @@ namespace VoltElekto.Energy
                 }
 
             }
+
+            #endregion
+
+            #region Folha Resumo
+
+            sheet = workBook.Worksheets["Resumo"];
+
+            sheet.SetValue(3, 2, inputFile ?? string.Empty);
+            
+            sheet.SetValue(5, 2, stresses.Min(pr => pr.ReferenceDate));
+            sheet.SetValue(6, 2, stresses.Max(pr => pr.ReferenceDate));
+            sheet.SetValue(7, 2, stresses.Select(pr => pr.ReferenceDate).Distinct().Count());
+
+            sheet.SetValue(9, 2, stressParameters.StressParallel);
+            sheet.SetValue(10, 2, stressParameters.StressShort);
+            sheet.SetValue(11, 2, stressParameters.StressLong);
+
+            sheet.SetValue(13, 2, capital/mm);
+
+            var last = stresses.Last();
+
+            sheet.SetValue(13, 2, capital / mm);
+            sheet.SetValue(14, 2, last.ReferenceStress/capital);
+            sheet.SetValue(15, 2, stresses.Select(pr => pr.ReferenceStress / capital).Average());
+
+            sheet.SetValue(17, 2, marginFile ?? string.Empty);
+            sheet.SetValue(18, 2, 0.0);
+            sheet.SetValue(19, 2, 0.0);
 
             #endregion
 

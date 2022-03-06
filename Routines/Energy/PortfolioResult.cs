@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using VoltElekto.Energy.Margin;
 
 namespace VoltElekto.Energy
 {
@@ -16,6 +17,11 @@ namespace VoltElekto.Energy
         /// Data de Referência
         /// </summary>
         public DateTime ReferenceDate { get; set; }
+
+        /// <summary>
+        /// Margem Requerida para o portfólio todo
+        /// </summary>
+        public double MarginRequired { get; set; }
 
         public void Add(EnergyPositionResult positionResult)
         {
@@ -44,5 +50,30 @@ namespace VoltElekto.Energy
 
             base.CalculateReferenceStress();
         }
+
+        /// <summary>
+        /// Calcula a margem necessária para o portfólio
+        /// </summary>
+        /// <remarks>
+        /// É a soma das margens necessárias para cada posição, sob o pior cenário do portfólio como um todo
+        /// </remarks>
+        public void CalculateMargin(MarginParameters marginParameters)
+        {
+            var worstScenario = WorstStress;
+
+            foreach (var p in _positions)
+            {
+                p.CalculateMargin(worstScenario, marginParameters);
+            }
+
+            MarginRequired = _positions.Sum(p => p.MarginRequired);
+
+            // A margem pode ser coberta (parcialmente) pelo próprio valor do portfolio
+            MarginRequired -= Value;
+            MarginRequired = Math.Max(MarginRequired, 0.0);
+
+        }
+
+        
     }
 }

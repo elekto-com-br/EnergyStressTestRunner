@@ -1,0 +1,33 @@
+{
+  "Name": "M2_50",
+  "Vertices": [
+    {
+      "ReferenceMonth": 0,
+      "Coverage": 1
+    },
+    {
+      "ReferenceMonth": 1,
+      "Coverage": 1
+    },
+    {
+      "ReferenceMonth": 2,
+      "Coverage": 0.5
+    },
+    {
+      "ReferenceMonth": 3,
+      "Coverage": 0.5
+    },
+    {
+      "ReferenceMonth": 4,
+      "Coverage": 0.5
+    },
+    {
+      "ReferenceMonth": 5,
+      "Coverage": 0.5
+    },
+    {
+      "ReferenceMonth": 6,
+      "Coverage": 0.5
+    }
+  ]
+}

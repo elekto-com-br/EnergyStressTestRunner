@@ -48,9 +48,12 @@
     <Compile Include="Energy\Calculator.cs" />
     <Compile Include="Energy\EnergyPositionResult.cs" />
     <Compile Include="Energy\IPositionsServer.cs" />
+    <Compile Include="Energy\Margin\VertexParameter.cs" />
+    <Compile Include="Energy\Margin\MarginParameters.cs" />
     <Compile Include="Energy\PortfolioResult.cs" />
     <Compile Include="Energy\PositionsServerFromExcel.cs" />
     <Compile Include="Energy\PositionsServerFromText.cs" />
+    <Compile Include="Energy\Scenarios.cs" />
     <Compile Include="Energy\StressParameters.cs" />
     <Compile Include="Energy\StressResult.cs" />
     <Compile Include="Excel\ExcelReaderBase.cs" />
@@ -92,6 +95,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Templates\Report.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
