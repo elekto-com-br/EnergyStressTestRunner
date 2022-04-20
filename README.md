@@ -1,7 +1,7 @@
 # EnergyStressTestRunner
-Executor do Teste de Stress para Energia da Volt Robotic & Elekto, proposta Abraceel
+Executor do Teste de Stress, Alavancagem e Cálculo de Garantias para Energia da Volt Robotic & Elekto, proposta Abraceel
 
-Copyright © 2021 by Elekto Produtos Financeiros & Volt Robotics
+Copyright © 2021-2022 by Elekto Produtos Financeiros & Volt Robotics
 
 Programa para executar testes de stress em Porfólios de Energia, conforme estudo encomendado pela Abraceel.
 
@@ -9,11 +9,13 @@ Uso didático, não comercial!
 
 ## Instalação
 
-Simplesmente descompacte o arquivo zip num diretório qualquer de uma máquina executanto Windows (8 ou superior). O programa chama-se StressTestRunner.exe, mantenha-o junto dos arquivos e diretórios auxiliares enviados.
+Simplesmente descompacte o arquivo zip num diretório qualquer de uma máquina executanto Windows (8 ou superior). O programa chama-se `StressTestRunner.exe` o programa de cálculo de alavancagem, mantenha-o junto dos arquivos e diretórios auxiliares enviados.
+
+O programa que calcula as garantias é um programa de linha de comando, no mesmo diretório, chamado `StressTestRunnerCli.exe`. 
 
 É requerido que a máquina possua o .Net Framework 4.8, que qualquer Windows relativamente atualizado possuirá. Se ao executar o programa pela primeira vez ele retornar um erro requerendo o .Net 4.8, baixe-o e instale-o a partir da Microsoft em https://dotnet.microsoft.com/download/dotnet-framework/net48 (clique no web installer do Runtime).
 
-## Execução
+## Execução do Cálculo da Alavancagem
 
 O programa é simples de usar: basta selecionar uma planilha Excel, com formato especifico (exemplos no sub-diretório "Exemplos), contendo as posições de energia em datas determinadas e clicar em Executar. Para posições complexas é possível que a execução demore alguns poucos segundos, a maior parte consumidos escrevendo o Excel de resultados, seja paciente.
 
@@ -40,7 +42,11 @@ No subdiretório "Data" o arquivo Energia.txt contém as curvas de energia calcu
 	* "data de vértice": a data de inflexões, que normalmente corresponde as datas de pagamento dos contratos, no formato yyyy-MM-dd; 
 	* "valor da energia": em R$/Mwh, na formatação inglesa, sem separador de milhar, usando ponto como separador decimal.
 
-## Garantias
+## Execução do Cálculo das Garantias
+
+O cálculo das garantias é executado pelo programa `StressTestRunnerCli.exe`. É um programa em linha de comando, e os parâmetros de comando e suas opções podem ser obtidos com `StressTestRunnerCli.exe Run --help`.
+
+## Garantias do Software
 
 Os melhores esforços foram empreendidos para que o programa execute corretamente. No entando nem Elekto e nem Volt Robotics dão qualquer garantia quanto aos resultados e consequencias do uso correto, ou não, do programa. Nenhum prejuizo, de qualquer natureza, poderá ser imputado a Elekto ou a Volt Robotics, pelo uso correto ou não desse programa.
 
