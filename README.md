@@ -46,6 +46,10 @@ No subdiretório "Data" o arquivo Energia.txt contém as curvas de energia calcu
 
 O cálculo das garantias é executado pelo programa `StressTestRunnerCli.exe`. É um programa em linha de comando, e os parâmetros de comando e suas opções podem ser obtidos com `StressTestRunnerCli.exe Run --help`.
 
+Para executar usando um arquivo de exemplo, considerando um stress de 47% (equivalente a 99%), e usando o arquivo de margem (o quanto do stress escedente num mês deve ser coberto) use:
+
+`StressTestRunnerCli.exe Run .\Exemplos\Posições.Exemplo01.Flat.xlsx --Stress 47 --MarginsFile .\Exemplos\Margin.M1_50.json`
+
 ## Garantias do Software
 
 Os melhores esforços foram empreendidos para que o programa execute corretamente. No entando nem Elekto e nem Volt Robotics dão qualquer garantia quanto aos resultados e consequencias do uso correto, ou não, do programa. Nenhum prejuizo, de qualquer natureza, poderá ser imputado a Elekto ou a Volt Robotics, pelo uso correto ou não desse programa.
