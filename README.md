@@ -7,6 +7,10 @@ Programa para executar testes de stress em Porfólios de Energia, conforme estud
 
 Uso didático, não comercial!
 
+## Download do Executável
+
+O executável, assim como o zip e o tar com o código fonte podem ser baixados na sua versão mais recente, **1.1**, na página [Releases](https://github.com/elekto-com-br/EnergyStressTestRunner/releases/tag/v1_1_0_0) deste repositório, ou diretamente [neste link](https://github.com/elekto-com-br/EnergyStressTestRunner/releases/download/v1_1_0_0/StressTestAlavancagemGarantia.v1.1.0.0.zip).
+
 ## Instalação
 
 Simplesmente descompacte o arquivo zip num diretório qualquer de uma máquina executanto Windows (8 ou superior). O programa chama-se `StressTestRunner.exe` o programa de cálculo de alavancagem, mantenha-o junto dos arquivos e diretórios auxiliares enviados.
