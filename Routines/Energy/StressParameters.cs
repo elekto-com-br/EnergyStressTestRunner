@@ -72,7 +72,7 @@ namespace VoltElekto.Energy
         /// </remarks>
         public double FlattenerB { get; set; } = -0.80;
 
-        public (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(ICalendar calendar, DateTime referenceDate, DateTime date, double normalValue, PldLimits limits)
+        public (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(ICalendar calendar, DateTime referenceDate, DateTime date, double normalValue, IPldLimits limits)
         {
             var maturity = calendar.GetDeltaWorkDays(referenceDate, date);
             if (maturity < 0)

@@ -31,6 +31,6 @@ namespace VoltElekto.Energy
         /// <summary>
         /// Valores estressados na curva
         /// </summary>
-        (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(DateTime date, StressParameters stressParameters, PldLimits limits);
+        (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(DateTime date, StressParameters stressParameters, IPldLimits limits);
     }
 }

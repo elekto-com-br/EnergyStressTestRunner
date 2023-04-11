@@ -43,11 +43,15 @@ namespace VoltElekto
         [CommandOption("HolidaysFile", 'h', Description = "Arquivo texto com os feriados.")]
         public string HolidaysFile { get; set; }
 
-        [CommandOption("MarginsFile", 'm', Description = "Arquivo json com os parâmetros de margem/garantia. ")]
+        [CommandOption("MarginsFile", 'm', Description = "Arquivo json com os parâmetros de margem/garantia.")]
         public string MarginsFile { get; set; }
 
-        [CommandOption("OutputFile", 'o', Description = "Arquivo excel de saída. ")]
+        [CommandOption("OutputFile", 'o', Description = "Arquivo excel de saída.")]
         public string OutputFile { get; set; }
+
+        [CommandOption("PldLimitsFile", 'l', Description = "Arquivo texto com os limites de PLD.")]
+        public string PldLimitsFile { get; set; }
+
 
 
         public ValueTask ExecuteAsync(IConsole console)
@@ -167,6 +171,34 @@ namespace VoltElekto
                 }
             }
 
+            // Limites de PLD
+            IPldLimits pldLimits = null;
+            if (!string.IsNullOrWhiteSpace(PldLimitsFile))
+            {
+                if (!File.Exists(PldLimitsFile))
+                {
+                    throw new CommandException($"O arquivo de limites de PLD '{PldLimitsFile}' não existe!");
+                }
+                pldLimits = new TextFilePldLimits(PldLimitsFile);
+            }
+            else
+            {
+                // Tenta do diretório de dados
+                if (Directory.Exists(dataDirectory))
+                {
+                    PldLimitsFile = Path.Combine(dataDirectory, "PLDLimits.txt");
+                    if (File.Exists(PldLimitsFile))
+                    {
+                        pldLimits = new TextFilePldLimits(PldLimitsFile);
+                    }
+                }
+            }
+            if (pldLimits == null)
+            {
+                pldLimits = new StaticPldLimits();
+                console.Output.WriteLine("Usando Limites de PLD estáticos.");
+            }
+            
             const CalculationMode mode = CalculationMode.PositionInterpolated;
             console.Output.WriteLine($"Modo de Cálculo: {mode.GetDescription()}");
 
@@ -195,7 +227,7 @@ namespace VoltElekto
 
             console.Output.WriteLine($"{positionsOrTrades.Count:N0} posições de referência relevantes lidos.");
 
-            var calculator = new Calculator(calendar, curveServer);
+            var calculator = new Calculator(calendar, curveServer, pldLimits);
 
             var allPositions = new List<EnergyPosition>();
             List<EnergyPosition> allTrades;

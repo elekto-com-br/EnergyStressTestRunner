@@ -17,12 +17,13 @@ namespace VoltElekto.Energy
     {
         private readonly ICalendar _calendar;
         private readonly ICurveServer _curveServer;
-        private readonly PldLimits _pldLimits = new();
+        private readonly IPldLimits _pldLimits;
 
-        public Calculator(ICalendar calendar, ICurveServer curveServer)
+        public Calculator(ICalendar calendar, ICurveServer curveServer, IPldLimits pldLimits)
         {
             _calendar = calendar;
             _curveServer = curveServer;
+            _pldLimits = pldLimits ?? new StaticPldLimits();
         }
 
         /// <summary>

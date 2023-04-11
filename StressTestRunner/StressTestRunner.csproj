@@ -72,6 +72,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Content Include="Data\PLDLimits.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Exemplos\Posições.Exemplo01.Flat.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

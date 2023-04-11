@@ -34,7 +34,7 @@ namespace VoltElekto.Energy
         /// <summary>
         /// Retorna o valor com o stress aplicado
         /// </summary>
-        public (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(DateTime date, StressParameters stressParameters, PldLimits limits)
+        public (double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) GetValue(DateTime date, StressParameters stressParameters, IPldLimits limits)
         {
             var price = GetValue(date);
             return stressParameters.GetValue(Calendar, ReferenceDate, date, price, limits);

@@ -19,6 +19,7 @@ namespace VoltElekto
     {
         private ICalendar _calendar;
         private ICurveServer _curveServer;
+        private IPldLimits _pldLimits;
 
         public MainForm()
         {
@@ -111,7 +112,7 @@ namespace VoltElekto
 
                 AddStatusText($"{positionsOrTrades.Count:N0} posições ou trades relevantes lidos.");
 
-                var calculator = new Calculator(_calendar, _curveServer);
+                var calculator = new Calculator(_calendar, _curveServer, _pldLimits);
 
                 var allPositions = new List<EnergyPosition>();
                 var allTrades = new List<EnergyPosition>();
@@ -290,6 +291,18 @@ namespace VoltElekto
 
                 var curveServer = new CurveServerFromTextFile(curveFile, calendar);
                 AddStatusText($"Há curvas entre {curveServer.MinDate:yyyy-MM-dd} e {curveServer.MaxDate:yyyy-MM-dd} a partir do arquivo {curveFile}.");
+
+                var pldLimitsFile = Path.Combine(dataDirectory, "PLDLimits.txt");
+                if (File.Exists(pldLimitsFile))
+                {
+                    _pldLimits = new TextFilePldLimits(pldLimitsFile);
+                    AddStatusText($"Limites de PLD foram lidos a partir do arquivo {pldLimitsFile}.");
+                }
+                else
+                {
+                    _pldLimits = new StaticPldLimits();
+                    AddStatusText($"Limites de PLD não foram encontrados no arquivo {pldLimitsFile}. Serão usados os limites estáticos.");
+                }
                 
                 _calendar = calendar;
                 _curveServer = curveServer;

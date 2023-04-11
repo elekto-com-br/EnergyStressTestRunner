@@ -9,7 +9,7 @@ namespace VoltElekto.Energy
         [Test]
         public void BasicTest()
         {
-            var limits = new PldLimits();
+            var limits = new StaticPldLimits();
 
             // Dentro 
             Assert.AreEqual(50, limits.RestrictToLimits(new DateTime(2016,1,1), 50), 1e-10);

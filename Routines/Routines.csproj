@@ -47,15 +47,18 @@
     <Compile Include="Energy\CalculationMode.cs" />
     <Compile Include="Energy\Calculator.cs" />
     <Compile Include="Energy\EnergyPositionResult.cs" />
+    <Compile Include="Energy\IPldLimits.cs" />
     <Compile Include="Energy\IPositionsServer.cs" />
     <Compile Include="Energy\Margin\VertexParameter.cs" />
     <Compile Include="Energy\Margin\MarginParameters.cs" />
+    <Compile Include="Energy\PldLimitsBase.cs" />
     <Compile Include="Energy\PortfolioResult.cs" />
     <Compile Include="Energy\PositionsServerFromExcel.cs" />
     <Compile Include="Energy\PositionsServerFromText.cs" />
     <Compile Include="Energy\Scenarios.cs" />
     <Compile Include="Energy\StressParameters.cs" />
     <Compile Include="Energy\StressResult.cs" />
+    <Compile Include="Energy\TextFilePldLimits.cs" />
     <Compile Include="Excel\ExcelReaderBase.cs" />
     <Compile Include="Market\BuySell.cs" />
     <Compile Include="Market\BuySellExtensions.cs" />
@@ -65,7 +68,7 @@
     <Compile Include="Energy\ForwardCurve.cs" />
     <Compile Include="Energy\ICurve.cs" />
     <Compile Include="Energy\ICurveServer.cs" />
-    <Compile Include="Energy\PldLimits.cs" />
+    <Compile Include="Energy\StaticPldLimits.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
