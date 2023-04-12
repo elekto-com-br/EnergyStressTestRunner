@@ -421,6 +421,74 @@ namespace VoltElekto.Energy
 
             #endregion
 
+            #region Resumo Posições
+
+            sheet = workBook.Worksheets["ResumoPosições"];
+
+            startRow = 7;
+            row = startRow;
+            foreach (var r in stresses)
+            {
+                var date = r.ReferenceDate;
+                sheet.SetValue(row, 2, date);
+
+                // Agrupa as posições por mês de início
+                var positionsByDelivery = r.Results.GroupBy(e => e.Position.StartMonth)
+                    .OrderBy(e => e.Key);
+
+                foreach (var positionByDelivery in positionsByDelivery)
+                {
+                    var first = positionByDelivery.First();
+                    sheet.SetValue(row, 3, first.Position.StartMonth);
+                    sheet.SetValue(row, 4, first.Position.DeliveryAlias);
+
+                    var buyCount = positionByDelivery.Count(e => e.Position.BuySell == BuySell.Buy);
+                    var sellCount = positionByDelivery.Count(e => e.Position.BuySell == BuySell.Sell);
+
+                    sheet.SetValue(row, 5, buyCount);
+                    sheet.SetValue(row, 6, sellCount);
+                    sheet.SetValue(row, 7, buyCount + sellCount);
+
+                    var buyAmount = positionByDelivery.Where(e => e.Position.BuySell == BuySell.Buy).Sum(e => e.Position.Amount);
+                    var sellAmount = positionByDelivery.Where(e => e.Position.BuySell == BuySell.Sell).Sum(e => e.Position.Amount);
+
+                    sheet.SetValue(row, 8, buyAmount);
+                    sheet.SetValue(row, 9, sellAmount);
+                    sheet.SetValue(row, 10, buyAmount - sellAmount);
+
+                    // Preço médio de todas as compras ponderadas pelo volume
+                    var buyPrice = positionByDelivery.Where(e => e.Position.BuySell == BuySell.Buy).Sum(e => e.Position.Amount * e.Position.TradePrice) / buyAmount;
+                    var sellPrice = positionByDelivery.Where(e => e.Position.BuySell == BuySell.Sell).Sum(e => e.Position.Amount * e.Position.TradePrice) / sellAmount;
+                    
+                    if (!double.IsNaN(buyPrice) && !double.IsInfinity(buyPrice))
+                    {
+                        sheet.SetValue(row, 11, buyPrice);
+                    }
+                    else
+                    {
+                        sheet.SetValue(row, 11, 0.0);
+                    }
+
+                    if (!double.IsNaN(sellPrice) && !double.IsInfinity(sellPrice))
+                    {
+                        sheet.SetValue(row, 12, sellPrice);
+                    }
+                    else
+                    {
+                        sheet.SetValue(row, 12, 0.0);
+                    }
+
+                    sheet.SetValue(row, 14, first.Price.Zero);
+                    sheet.SetValue(row, 15, first.Position.StartMonth.HoursInMonth());
+                    
+                
+                    ++row;
+                }
+
+            }
+
+            #endregion
+
             #region Curvas
 
             sheet = workBook.Worksheets["Curvas"];

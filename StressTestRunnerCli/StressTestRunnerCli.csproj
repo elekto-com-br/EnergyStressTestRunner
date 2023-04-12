@@ -88,6 +88,9 @@
     <Content Include="Exemplos\Margin.M2_50.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Exemplos\Posições.Exemplo02.Mudando.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
