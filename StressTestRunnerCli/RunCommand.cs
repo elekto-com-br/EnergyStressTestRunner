@@ -18,7 +18,9 @@ using VoltElekto.Market;
 
 namespace VoltElekto
 {
-    [Command("Run")]
+
+
+    [Command("Run", Description = "Executa o teste de stress para as posições fornecidas.")]
     [PublicAPI]
     public class RunCommand : ICommand
     {

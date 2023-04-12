@@ -23,7 +23,7 @@ namespace VoltElekto.Energy
         public IEnumerable<EnergyPosition> GetPositions()
         {
             // Pulando o header
-            int rowNumber = 1;
+            var rowNumber = 1;
             foreach (var line in _lines.Skip(1))
             {
                 ++rowNumber;

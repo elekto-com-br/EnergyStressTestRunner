@@ -728,6 +728,33 @@ namespace VoltElekto.Calendars
             return workDates;
         }
 
+        /// <summary>
+        ///     Retorna o primeiro dia util do mês
+        /// </summary>
+        /// <param name="referenceDate">Data de referência</param>
+        /// <param name="monthsAhead">Meses a adicionar (ou subtrair) da data de referencia.</param>
+        /// <returns>O primeiro dia util do mês</returns>
+        public DateTime GetWorkingMonthHead(DateTime referenceDate, int monthsAhead)
+        {
+            var date = GetActualMonthHead(referenceDate, monthsAhead);
+            date = GetNextOrSameWorkday(date);
+            return date;
+        }
+
+        /// <summary>
+        ///     Retorna o primeiro dia do mês
+        /// </summary>
+        /// <param name="referenceDate">Data de referência</param>
+        /// <param name="monthsAhead">Meses a adicionar (ou subtrair) da data de referencia.</param>
+        /// <returns>O primeiro dia do mês</returns>
+        public DateTime GetActualMonthHead(DateTime referenceDate, int monthsAhead)
+        {
+            var date = referenceDate.Date.RemoveKind();
+            date = date.AddMonths(monthsAhead);
+            date = new DateTime(date.Year, date.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
+            return date;
+        }
+
         #endregion
     }
 }

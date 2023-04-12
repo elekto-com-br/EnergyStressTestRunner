@@ -19,7 +19,7 @@ namespace VoltElekto.Market
                 throw new ArgumentNullException(nameof(obj));
             }
 
-            string x = obj.ToString().Trim();
+            var x = obj.ToString().Trim();
             if (string.IsNullOrWhiteSpace(x))
             {
                 return BuySell.Buy;

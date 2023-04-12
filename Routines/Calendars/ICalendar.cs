@@ -103,5 +103,21 @@ namespace VoltElekto.Calendars
         /// 	<c>true</c> if the specified date is workday; otherwise, <c>false</c>.
         /// </returns>
         bool IsWorkday(DateTime date);
+
+        /// <summary>
+        ///     Retorna o primeiro dia util do mês
+        /// </summary>
+        /// <param name="referenceDate">Data de referência</param>
+        /// <param name="monthsAhead">Meses a adicionar (ou subtrair) da data de referencia.</param>
+        /// <returns>O primeiro dia util do mês</returns>
+        DateTime GetWorkingMonthHead(DateTime referenceDate, int monthsAhead);
+
+        /// <summary>
+        ///     Retorna o primeiro dia do mês
+        /// </summary>
+        /// <param name="referenceDate">Data de referência</param>
+        /// <param name="monthsAhead">Meses a adicionar (ou subtrair) da data de referencia.</param>
+        /// <returns>O primeiro dia do mês</returns>
+        DateTime GetActualMonthHead(DateTime referenceDate, int monthsAhead);
     }
 }
