@@ -412,6 +412,9 @@ namespace VoltElekto.Energy
                     sheet.SetValue(row, 19, e.MarginScenario);
                     sheet.SetValue(row, 20, e.MarginRequired/mm);
 
+                    sheet.SetValue(row, 21, e.DeliveryAlias);
+                    sheet.SetValue(row, 22, e.Price.Zero);
+
                     ++row;    
                 }
             }

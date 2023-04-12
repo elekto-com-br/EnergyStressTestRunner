@@ -56,6 +56,11 @@ namespace VoltElekto.Energy
         /// </summary>
         public double MarginBase { get; set; }
 
+        /// <summary>
+        /// Aliás da mercadoria (M0, M1 etc)
+        /// </summary>
+        public string DeliveryAlias => Position.DeliveryAlias;
+
         public void CalculateResults((double zero, double parallelPlus, double parallelMinus, double shortPlus, double shortMinus, double ascendent, double descendent) price)
         {
             // A ser usado posteriormente
