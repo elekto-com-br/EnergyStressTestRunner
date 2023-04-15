@@ -430,14 +430,15 @@ namespace VoltElekto.Energy
             foreach (var r in stresses)
             {
                 var date = r.ReferenceDate;
-                sheet.SetValue(row, 2, date);
-
+                
                 // Agrupa as posições por mês de início
                 var positionsByDelivery = r.Results.GroupBy(e => e.Position.StartMonth)
                     .OrderBy(e => e.Key);
 
                 foreach (var positionByDelivery in positionsByDelivery)
                 {
+                    sheet.SetValue(row, 2, date);
+
                     var first = positionByDelivery.First();
                     sheet.SetValue(row, 3, first.Position.StartMonth);
                     sheet.SetValue(row, 4, first.Position.DeliveryAlias);
