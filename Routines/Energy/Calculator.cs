@@ -455,7 +455,7 @@ namespace VoltElekto.Energy
 
                     sheet.SetValue(row, 8, buyAmount);
                     sheet.SetValue(row, 9, sellAmount);
-                    sheet.SetValue(row, 10, buyAmount - sellAmount);
+                    // o net será calculado na planilha
 
                     // Preço médio de todas as compras ponderadas pelo volume
                     var buyPrice = positionByDelivery.Where(e => e.Position.BuySell == BuySell.Buy).Sum(e => e.Position.Amount * e.Position.TradePrice) / buyAmount;
